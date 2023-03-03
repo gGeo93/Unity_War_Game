@@ -8,4 +8,5 @@ public class Events
      public static Action OnPlayerDying;
      public static Action OnPlayerWinning;
      public static Action OnWarplaneStartTravelling;
+     public static Func<bool> OnStunGrenadeTrownNearEnemyTower;
 }

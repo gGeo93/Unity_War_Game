@@ -12,6 +12,7 @@ public class StunGrenadeActivation : FlyingWeapon
     MeshRenderer[] grenadeMeshes;
     GrenadeGrab grenadeGrab;
     [SerializeField]private int temporaryStunGrenadeDamage = 1;
+    public bool towerIsInRange = false;
     
     private void Awake() 
     {
@@ -20,6 +21,7 @@ public class StunGrenadeActivation : FlyingWeapon
         grenadeExplosion = GetComponentInChildren<ParticleSystem>();
         grenadeMeshes = GetComponentsInChildren<MeshRenderer>();
         grenadeGrab = GetComponent<GrenadeGrab>();
+        Events.OnStunGrenadeTrownNearEnemyTower = OneTowerInRange;
     }
     protected override IEnumerator GrenadeActivation()
     {
@@ -58,13 +60,19 @@ public class StunGrenadeActivation : FlyingWeapon
     {
         StartCoroutine(GradualDamage());
     }
-    void EnemiesInRange()
+    private void EnemiesInRange()
     {
         if(enemiesWithinRange != null)
         {
+            towerIsInRange = true;
             HarmEnemiesInRange();
         }
     }
+    private bool OneTowerInRange()
+    {
+        return towerIsInRange;
+    }
+
     IEnumerator GradualDamage()
     {
         InvokeRepeating("HarmCausedAround", 0f , 0.1f);          

@@ -8,15 +8,17 @@ public class GrenadeGrab : MonoBehaviour
     [SerializeField]Transform grenadeHolder;
     MeshRenderer[] grenadeMeshes;
     Rigidbody rb;
+    StunGrenadeActivation stunGrenadeActivation;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         grenadeMeshes = GetComponentsInChildren<MeshRenderer>();
+        stunGrenadeActivation = GetComponent<StunGrenadeActivation>();
     }
     public IEnumerator GrabNewGrenade()
     {
         GetComponent<GrenadeThrow>().isHoldingGrenade = false;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(4f);
         for (var i = 0; i < grenadeMeshes.Length - 1; i++)
         {
             grenadeMeshes[i].enabled = true;
@@ -27,6 +29,7 @@ public class GrenadeGrab : MonoBehaviour
         transform.rotation = q;
         rb.isKinematic = true; 
         rb.useGravity = false;
+        stunGrenadeActivation.towerIsInRange = false;
         GetComponent<GrenadeThrow>().isHoldingGrenade = true;
     }
 }
